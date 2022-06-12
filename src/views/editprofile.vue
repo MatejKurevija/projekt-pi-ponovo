@@ -1,6 +1,6 @@
 <template>
     <div class="container space-between">
-        <button class="px-5 me-4 btn btn-sm btn-primary">Reset password</button>
+        <button class="px-5 me-4 btn btn-sm btn-primary" @click="resetPassword()">Reset password</button>
         <button align="left" class="px-5 btn btn-sm btn-primary">Delete my profile</button>
 
     </div>
@@ -9,8 +9,8 @@
         <div class="d-flex flex-row justify-content-center mb-3">
             <div class="image"> <img height="100" width="100" contain src="https://i.picsum.photos/id/237/536/354.jpg?hmac=i0yVXW1ORpyCZpQ-CknuyV-jbtU7_x9EBQVhvT5aRr0" class="rounded-circle"> <span><i class='bx bxs-camera-plus'></i></span> </div>
             <div class="d-flex flex-column ms-3 user-details">
-                <h4 class="mb-0">Zenda Grace</h4>
-                <div class="ratings"> <span>4.0</span> <i class='bx bx-star ms-1'></i> </div>
+                <h4 class="mb-0">Welcome {{firstName}} {{lastName}}</h4>
+                <div class="ratings"> <span>4.5</span> <i class='bx bx-star ms-1'></i> </div>
             </div>
         </div>
         <h4>Edit Profile</h4>
@@ -30,19 +30,77 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="about-inputs"> <label>About</label> <textarea class="form-control" type="text" placeholder="Tell us about yourself"> </textarea> </div>
+                <div class="about-inputs"> <label>About</label> <textarea class="form-control" type="text" placeholder="{{about}}"> </textarea> </div>
             </div>
         </div>
-        <div class="mt-3 gap-2 d-flex justify-content-end"> <button class="px-3 btn btn-sm btn-outline-primary"><a href="/">Cancel</a></button> <button class="px-3 btn btn-sm btn-primary">Save</button> </div>
+        <div class="mt-3 gap-2 d-flex justify-content-end"> <button class="px-3 btn btn-sm btn-outline-primary"><a href="/">Cancel</a></button> <button @click="save()" class="px-3 btn btn-sm btn-primary">Save</button> </div>
     </div>
 </div>
 </template>
 
-<script>
-export default {
 
+<script>
+import { collection, getDocs, db,  auth, sendPasswordResetEmail } from "@/firebase";
+import store from '@/store'
+
+export default {
+    	name: "EditProfile",
+	data() {
+		return {
+            store,
+			name: "EditProfile",
+			firstName: "",
+			lastName: "",
+			about: "",
+			adressLine: "",
+			country: "",
+			city: "",
+			state: "",
+			alertMessage: "",
+			alertType: "",
+			greska: "false",
+			sent: "false",
+			email: "",  
+		};
+	},
+    mounted() {
+    this.fetchCurrentUserData();
+	},
+    
+
+ methods: {
+     async fetchCurrentUserData() {
+			 const querySnapshot = await getDocs(collection(db, "users"));
+            querySnapshot.forEach((doc) => {
+            if (store.courentuser === `${doc.data().uid}`) {
+            this.firstName = `${doc.data().firstName}`;
+            this.lastName = `${doc.data().lastName}`;
+            this.city = `${doc.data().city}`;
+            this.state = `${doc.data().state}`;
+            this.email = `${doc.data().email}`;
+            this.about = `${doc.data().about}`;
+            
+        }
+      });
+		},
+         async resetPassword() {
+      try {
+        await sendPasswordResetEmail(auth, this.email)
+          alert("Succesfuly sent the password reset email");
+          this.sent = true;
+      }
+      catch (error) {
+            console.log(error);
+         }
+    },
+    save(){
+
+    }
+ }
 }
 </script>
+ 
+
 
 <style>
 .card {
