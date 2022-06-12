@@ -7,6 +7,11 @@ import editprofile from '../views/editprofile.vue'
 import myitems from '../views/myitems.vue'
 import rentout from '../views/rentout.vue'
 import payment from '../views/payment.vue'
+import Store from '../views/Store.vue'
+import store from '@/store'
+import passwordresset from '../views/passwordresset.vue' 
+import chat from '../views/chat.vue'
+
 
 const routes = [
   {
@@ -20,12 +25,14 @@ const routes = [
     component: signup
   },
   {
+  path: '/passwordresset',
+  name: 'passwordresset',
+  component: passwordresset
+},
+  {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/login.vue')
+    component: () => import('../views/login.vue'),
   },
   {
     path: '/tos',
@@ -35,27 +42,58 @@ const routes = [
   {
     path: '/itemsrented',
     name: 'itemsrented',
-    component: itemsrented
+    component: itemsrented,
+    meta: {
+			authReq: true,
+		},
   },
   {
     path: '/editprofile',
     name: 'editprofile',
-    component: editprofile
+    component: editprofile,
+    meta: {
+			authReq: true,
+		},
   },
   {
     path: '/myitems',
     name: 'myitems',
-    component: myitems
+    component: myitems,
+    meta: {
+			authReq: true,
+		},
   },
   {
     path: '/rentout',
     name: 'rentout',
-    component: rentout
+    component: rentout,
+    meta: {
+			authReq: true,
+		},
   },
   {
     path: '/payment',
     name: 'payment',
-    component: payment
+    component: payment,
+    meta: {
+			authReq: true,
+		},
+  },
+  {
+  path: '/Store',
+    name: 'Store',
+    component: Store,
+    meta: {
+			authReq: true,
+		},
+  },
+  {
+  path: '/chat',
+    name: 'chat',
+    component: chat,
+    meta: {
+			authReq: true,
+		},
   },
 ]
 
@@ -63,5 +101,20 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+
+
+/* router.beforeEach((to, from, next) => {
+const noUser = store.loggedin;
+if(noUser && to.meta.authReq){
+next('login');
+} else{
+  next();
+}
+
+}); */
+
+
+
 
 export default router
