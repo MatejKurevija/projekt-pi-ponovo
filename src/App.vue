@@ -17,12 +17,13 @@
           <a class="nav-link" href="rentout">Rent out</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             My profile
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="itemsrented">Items rented</a></li>
             <li><a class="dropdown-item" href="myitems">My Items</a></li>
+            <li><a class="dropdown-item" href="chat">Chat</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="editprofile">Edit Profile</a></li>
           </ul>
@@ -33,12 +34,61 @@
           <li class="nav-item">
            <a class="nav-link"  href="/login">Log in/Sign up</a>
         </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+           <a class="nav-link"  @click="logout()" href="/">Logout</a> 
+        </li>
         </ul>
     </div>
   </div>
 </nav>
   <router-view/>
 </template>
+
+<script>
+import  store  from "@/store";
+import { auth, onAuthStateChanged  } from "@/firebase";
+import { signOut, getAuth } from '@firebase/auth';
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    
+    store.courentuser = user.uid;
+    store.loggedin = true;
+    
+
+  } else {
+    store.courentuser == null;
+    store.loggedin = false
+    
+  }
+  
+
+});
+
+export default	{
+  data (){
+    return{
+      store
+    }
+  },
+  methods: {
+     logout() {
+
+    const auth = getAuth();
+    signOut(auth).then(() => {
+   
+    }).catch((error) => {
+    // An error happened.
+    });
+  }
+}
+}
+
+</script>
 
 <style lang="scss">
 #app {
