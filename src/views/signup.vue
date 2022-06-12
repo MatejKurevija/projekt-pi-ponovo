@@ -1,6 +1,6 @@
 <template>
   <div class="signup">
-    <h1>This is an signup page</h1>
+    <h1>Sign up</h1>
     <div class = "container">
       <div class = "row">
           <div class = "col-sm"></div>
@@ -8,49 +8,54 @@
             <form>
               <div class = "form-group">
                 <label for = "exampleInputfirstname">First Name</label>
-                <input type = "firstname" class = "form-control" id = "exampleInputfirstname"  
+                <input type = "firstname" class = "form-control" v-model= "firstname" id = "exampleInputfirstname"  
                 placeholder = "First Name" />
               </div>
               <div class = "form group">
                 <label for = "exampleInputlastname">Last Name</label>
-                <input type = "lastname" class = "form-control" id = "exampleInputlastname"
+                <input type = "lastname" class = "form-control" v-model="lastname" id = "exampleInputlastname"
                 placeholder = "Last Name"/>
               </div>
                 <div class = "form group">
                 <label for = "exampleInputemail">Email</label>
-                <input type = "Email" class = "form-control" id = "exampleInputEmail" aria-describedby="emailHelp" placeholder = "Enter email" />
+                <input type = "Email" class = "form-control" v-model="email" id = "exampleInputEmail" aria-describedby="emailHelp" placeholder = "Enter email" />
               </div>
                 <div class = "form group">
                 <label for = "exampleInputPassword">Password</label>
-                <input type = "password" class = "form-control" id = "exampleInputPassword"
+                <input type = "password" class = "form-control" v-model="password" id = "exampleInputPassword"
                 placeholder = "Password"/>
               </div>
                 <div class = "form group">
-                <label for = "exampleInputCPassword">Password</label>
-                <input type = "Cpassword" class = "form-control" id = "exampleInputCPassword"
+                <label for = "exampleInputCPassword">Confirm password</label>
+                <input type = "password"  class = "form-control" v-model="cpassword" id = "exampleInputCPassword"
                 placeholder = "Confirm your password"/>
               </div>
                 <div class = "form group">
                 <label for = "exampleInputCountry">Country</label>
-                <input type = "Country" class = "form-control" id = "exampleInputCountry"
+                <input type = "Country" class = "form-control" v-model="country" id = "exampleInputCountry"
                 placeholder = "Country"/>
                   <div class = "form group">
                 <label for = "exampleInputCity">City</label>
-                <input type = "City" class = "form-control" id = "exampleInputCity"
+                <input type = "City" class = "form-control" v-model="city" id = "exampleInputCity"
                 placeholder = "City"/>
               </div>
                 <div class = "form group">
                 <label for = "exampleInputState/prov">State/Provinance</label>
-                <input type = "State/prov" class = "form-control" id = "exampleInputState/prov"
+                <input type = "State/prov" class = "form-control" v-model="state" id = "exampleInputState/prov"
                 placeholder = "State/Provinance"/>
               </div>
                 <div class = "form group">
                 <label for = "exampleInputDate">Date of birth</label>
-                <input type = "Date" class = "form-control" id = "exampleInputDate"
+                <input type = "Date" class = "form-control" min="1900-01-01" max="2010-01-01" v-model="dateofb" id = "exampleInputDate"
                 placeholder = "Date Of birth"/>
               </div>
+                <div class = "form group">
+                <label for = "exampleInputabout_">About</label>
+                <input type = "about_" class = "form-control" v-model="about" id = "exampleInputabout_"
+                placeholder = "About you"/>
               </div>
-              <button type= "submit" class = " btn btn-primary">Submit</button>
+              </div>
+              <button type= "button" @click="signup" class = " btn btn-primary">Sign up</button>
             </form>
           </div>
           <div class =" col-sm"></div>
@@ -58,3 +63,73 @@
     </div>
   </div>
 </template>
+
+
+<script>
+import {
+   auth,
+   createUserWithEmailAndPassword,
+   collection,
+   addDoc,
+   doc,
+   db,
+} from '@/firebase';
+
+
+
+  export default {
+    name: "sign up",
+    data (){
+        return {
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+          cpassword: "",
+          country: "",
+          city: "",
+          state: "",
+          dateofb: "",
+          uid: "",
+          about: "",
+          avgR: "",
+        };
+    },
+
+    methods: {
+        async signup() {
+        if (this.password !== this.cpassword)
+        alert("Passwords dont match!") ;
+      else {
+         try {
+            const res = await createUserWithEmailAndPassword(
+               auth,
+               this.email,
+               this.password
+            );
+            
+        const userProfileData = {
+               firstName: this.firstname,
+               lastName: this.lastname,
+               age: new Date(this.dateofb),
+               country: this.country,
+               city: this.city,
+               state: this.state,
+               uid: res.user.uid,
+               about: this.about,
+               avgR: this.avgR,
+               email: this.email
+            };
+       await addDoc(collection(db, "users"), userProfileData);
+     
+
+
+         } catch (error) {
+            console.log(error);
+         }
+         this.$router.replace({name: "home"});
+      }
+    },
+  }
+}
+</script>
