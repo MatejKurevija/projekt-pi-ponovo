@@ -8,13 +8,13 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="https://www.eventstodayz.com/wp-content/uploads/2017/10/Beautiful-Landscape-Wallpaper.jpg" class="d-block w-100" height="400px" alt="https://www.eventstodayz.com/wp-content/uploads/2017/10/Beautiful-Landscape-Wallpaper.jpg">
+      <img src="https://easthamsandco.co.uk/wp-content/uploads/2021/02/rental-blue-1.svg" class="d-block w-100" height="400px" alt="https://www.eventstodayz.com/wp-content/uploads/2017/10/Beautiful-Landscape-Wallpaper.jpg">
     </div>
     <div class="carousel-item">
-      <img src="http://images6.fanpop.com/image/photos/35800000/-Wallpapers-Full-HD-random-35881589-1920-1080.jpg" class="d-block w-100" height="400px" alt="http://images6.fanpop.com/image/photos/35800000/-Wallpapers-Full-HD-random-35881589-1920-1080.jpg">
+      <img src="https://img.freepik.com/free-photo/person-s-hand-stacking-coins-near-house-model_23-2147919226.jpg?t=st=1656352047~exp=1656352647~hmac=b5ee29e33eb1bafb9933cabd19c2ccf31f5ba9fcb2784c7a11125eee0d917e5a&w=1380" class="d-block w-100" height="400px" alt="http://images6.fanpop.com/image/photos/35800000/-Wallpapers-Full-HD-random-35881589-1920-1080.jpg">
     </div>
     <div class="carousel-item">
-      <img src="https://eskipaper.com/images/random-wallpaper-2.jpg" class="d-block w-100" height="400px" alt="https://eskipaper.com/images/random-wallpaper-2.jpg">
+      <img src="https://img.freepik.com/free-photo/happy-couple-with-dog-making-selfie-new-home_329181-19904.jpg?t=st=1656352189~exp=1656352789~hmac=367ca0190ce9c80ce1df9d638b5b0e25414b557bf0e7590cf147035dfb6ee1b2&w=1380" class="d-block w-100" height="400px" alt="https://eskipaper.com/images/random-wallpaper-2.jpg">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -30,26 +30,13 @@
     <div class="card-header">
     Featured
   </div>
-  <div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
+  <div class="card text-center">
+  <div class="card-body">
         <h5 class="card-title">Check out what you can rent! Or you can let others rent your items</h5>
         <p class="card-text">With 76% happy customers!</p>
         <a href="Store" class="btn btn-primary">Store</a>
-      </div>
-    </div>
   </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Want to rent some items? Log in or sign up to learn more!</h5>
-        <p class="card-text">Renting items from people is fun with the right help</p>
-        <a href="login" class="btn btn-primary">Log in/Sign up</a>
-      </div>
-    </div>
   </div>
-</div>
 <div class="card text-center">
   <div class="card-header">
     ABOUT US
