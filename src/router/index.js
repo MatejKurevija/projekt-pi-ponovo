@@ -6,11 +6,9 @@ import itemsrented from '../views/itemsrented.vue'
 import editprofile from '../views/editprofile.vue'
 import myitems from '../views/myitems.vue'
 import rentout from '../views/rentout.vue'
-import payment from '../views/payment.vue'
 import Store from '../views/Store.vue'
 import store from '@/store'
-import passwordresset from '../views/passwordresset.vue' 
-import chat from '../views/chat.vue'
+import sendout from '../views/sendout.vue'
 
 
 const routes = [
@@ -24,15 +22,15 @@ const routes = [
     name: 'signup',
     component: signup
   },
-  {
-  path: '/passwordresset',
-  name: 'passwordresset',
-  component: passwordresset
-},
+  
+  
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/login.vue'),
+    meta: {
+      disableIfLoggedIn: true
+  }
   },
   {
     path: '/tos',
@@ -71,14 +69,7 @@ const routes = [
 			authReq: true,
 		},
   },
-  {
-    path: '/payment',
-    name: 'payment',
-    component: payment,
-    meta: {
-			authReq: true,
-		},
-  },
+  
   {
   path: '/Store',
     name: 'Store',
@@ -88,9 +79,9 @@ const routes = [
 		},
   },
   {
-  path: '/chat',
-    name: 'chat',
-    component: chat,
+  path: '/sendout',
+    name: 'sendout',
+    component: sendout,
     meta: {
 			authReq: true,
 		},
@@ -101,18 +92,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
-
-
-/* router.beforeEach((to, from, next) => {
-const noUser = store.loggedin;
-if(noUser && to.meta.authReq){
-next('login');
-} else{
-  next();
-}
-
-}); */
 
 
 
