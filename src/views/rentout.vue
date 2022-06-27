@@ -5,9 +5,9 @@
  
  <h1> Rent out your item </h1>
   
-<div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon3">Title</span>
-  <input type="text" class="form-control" v-model="title" id="basic-url" aria-describedby="basic-addon3">
+<div class="input-group mb-3" >
+  <span class="input-group-text" id="basic-addon3" >Title</span>
+  <input type="text" class="form-control" v-model="title" id="basic-url" aria-describedby="basic-addon3" >
 </div>
 
 <div class="input-group mb-3">
@@ -48,16 +48,16 @@
 </div>
 
 
-<div class="input-group mb-3">
-  <input type="file" class="form-control" id="image">
-  <label class="input-group-text"  accept="image/*" for="image">Product image</label>
-</div>
 
-<div class="input-group mb-3">
+ <file-input v-model="imageRef"  is-image  ></file-input>
+  
+
+
+<!-- <div class="input-group mb-3">
   <span class="input-group-text">Available rent time</span>
-  <input placeholder="Type hours days months or years!" type="text" v-model="renttime" class="form-control" aria-label="renttime">
+  <input placeholder="Type hours days months or years!" type="text" v-model="renttime" class="form-control" aria-label="renttime" disabled>
  
-</div>
+</div> -->
 
 <input class="btn btn-primary" @click="rentout()"  type="Rent out" value="Rent out">
 
@@ -73,10 +73,16 @@ import {
    collection,
    addDoc,
    db,
+   ref,
+   updateDoc,
    
 } from '@/firebase';
+import { uploadBytes, getStorage, getDownloadURL, } from '@firebase/storage';
+import FileInput from 'vue3-simple-file-input';
+
 
 export default {
+  components: { FileInput },
   name: "rentout",
 	data() {
 		return {
@@ -88,10 +94,13 @@ export default {
 			region: "",
 			zip: "",
 			adress: "",
-      renttime: "",
+      image: null,
       value: "",
       createdAt: Date.now(),
       renter: "",
+      isrented: false,
+			imageRef: null,
+     
 		};
 	},
  
@@ -101,19 +110,63 @@ export default {
             title: this.title,
             desc: this.desc,
             country: this.country,
+            city: this.city,
             region: this.region,
             zip: this.zip,
             adress: this.adress,
             value: this.value,
-            renttime: this.renttime,
             renter: this.store.courentuser,
             Createdat: this.createdAt,
+            isrented: this.isrented,
+            
 
         };
-        await addDoc(collection(db, "products"), rentout);
-     },
+        if(store.courentuser == ""){
+          alert("You can not rent without being loged in!");
+          this.$router.replace({name: "login"});
+        }
+        else{
+            if(this.title == "" 
+            || this.desc == ""
+            || this.country == "" 
+            || this.city == ""
+            || this.region == ""
+            || this.zip == ""
+            || this.adress == ""
+            || this.value == ""
+            ){
+              alert("Please insert all your product information!");
+            }
+            else{
+                   
+                    const imageName = "storepics/" + Date.now() + store.courentuser  + ".png";
+                    const storage = getStorage();
+                    const storageRef = ref(storage, imageName);
+                   
+                    
+                    uploadBytes(storageRef, this.imageRef.file).then((snapshot) => {
+                      
+                      getDownloadURL(ref(storage, storageRef, imageName))
+                    .then((url) => {
+                      updateDoc(docRef, {
+                      imageURL: url,
+                    });
+                      
+                    })
+                    
+                      
+                    });
+                    
+                    
 
- 
+                const docRef= await addDoc(collection(db, "products"), rentout);
+                this.$router.replace({name: "Store"});
+            }
+        }
+          
+     },
   }
 }
 </script>
+
+
