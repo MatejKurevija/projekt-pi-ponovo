@@ -1,36 +1,121 @@
 <template>
-    <h1>Welcome to the store!</h1>
-
-<div class="row row-cols-1 row-cols-md-2 g-4">
-  <div class="col">
-    <div class="card">
-      <img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=60" class="card-img-top" alt="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=60">
-      <div class="card-body">
-        <h5 class="card-title">{{title}}</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
+    
+<div class="nesto" style="width: 18rem;">
+  <img class="card-img-top" :src="imageURL" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title" > {{title}}</h5>
+    <p class="card-text" >Description: <small>{{desc}}</small></p>
+    <p class="card-text">Country: <small>{{country}}</small></p>
+    
+      <p class="card-text"><small class="text-muted">Rent price: {{value}}$</small></p>
+      <button class="px-5  btn btn-sm btn-primary"  @click="provjera()">Rent out</button>
+      
   </div>
 </div>
+
+
 </template>
 
 <script>
 import store from "@/store"
+import {getDocs, addDoc, collection, db, query,  where} from '@/firebase'
+import { deleteDoc, doc} from '@firebase/firestore'
 
 
 export default {
-  	props: [],
+  	props: ["createdat", "title", "zip", "city", "adress", "value", "desc", "country", "region", "renter", "imageURL", "doc"],
+    
     name: "cards",
     data () {
       return{
         store,
-        
-        
+        buyer: store.courentuser,
+
       }
     },
 
+mounted(){
+
+this.proizvod();
+this.g();
+},
+
+
+methods: {
+
+  
+
+  async provjera() {
+     if(store.courentuser == ""){
+          alert("You can not rent out without being loged in!");
+        }
+        else{
+          if(store.courentuser != this.renter){
+        const  rented = {
+            buyer: this.buyer,
+            renter: this.renter, 
+            adress: this.adress,
+            desc: this.desc,
+            country: this.country,
+            region: this.region,
+            city: this.city,
+            value: this.value,
+            title: this.title,
+            zip: this.zip,
+                      
+        };
+        
+         
+
+        await addDoc(collection(db, "rented"), rented);
+        await addDoc(collection(db, "sendout"), rented);
+  
+          const q = query(collection(db, "products"), where("title", "==", this.title));
+
+              const querySnapshot = await getDocs(q);
+              querySnapshot.forEach((dok) => {
+                   deleteDoc(doc(db, 'products', dok.id));
+               
+              });
+            
+            window.location.reload();
+          }
+          else {
+            alert("You cant rent your own product!");
+            
+          }
+            
+        }
+  },
+   g(){
+    console.log(store.courentuser);
+  }
+
+}
 
 
 }
 </script>
+
+<style >
+.nesto {
+    
+    width: calc(50% - 100px);
+    padding: 15px;
+    text-align: center;
+    font-size: 15px;
+    color: black;
+    display: block;
+    border: 1px solid black;
+    border-radius: 25px;
+    margin-left: 25px;
+    margin-top: 25px;
+    
+}
+
+@media (min-width: 102px) {
+    .nesto {
+        float: left;
+    }
+}
+</style>
