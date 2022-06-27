@@ -20,8 +20,7 @@
             </form>
             <div class = "text"><p>Dont have an account?<a href = "/signup"> Sign up TODAY!</a></p>
             </div>
-            <div class = "text"><p>Forgot your password?<a href = "/passwordresset">Reset your password</a></p>
-            </div>
+           
           </div>
           
           <div class =" col-sm"></div>
@@ -47,6 +46,7 @@ export default {
 				await signInWithEmailAndPassword(auth, this.email, this.password)
        
 			} catch (error) {
+        alert("Wrong email or password!")
 				console.log(error.message);
 				console.log(error.code);
 			}
