@@ -1,67 +1,102 @@
-<template>
-  <div class="app">
-    <cards/>
+<template v-if="loaded">
+<h1>Welcome to the store!</h1>
+  <div class="app" >
+    <cards 
+    v-for="podatak in podatci"
+    :key="podatak.doc.id"
+    :title="podatak.title"
+    :createdat="podatak.createdat"
+    :adress="podatak.adress"
+    :country="podatak.country"
+    :desc="podatak.desc"
+    :region="podatak.region"
+    :renttime="podatak.renttime"
+    :city="podatak.city"
+    :value="podatak.value"
+    :renter="podatak.renter"
+    :zip="podatak.zip"
+    :imageURL="podatak.imageURL"
+    :doc="podatak.doc"
+    >
+    </cards>
 </div>
-<h1>  {{title}} </h1>
+
 
 </template>
 <script>
 import store from "@/store"
 import {getDocs, collection , db} from "@/firebase"
-import cards from '@/components/cards.vue';
+import cards from '@/components/cards'
 
 
 
 export default {
-  components: { cards },
-    
+components: { cards },
+name: cards,
         data() {
             return {
+            loaded: false,
             store,
-            Createdat: "",
-            adress: "", 
-            country: "",  
-            desc: "", 
-            region: "", 
-            renttime: "", 
-            title: "", 
-            value: "", 
-            zip: "", 
+            podatci: [],
+            
+            
 		};
         },
 
-    
+
+    async mounted() {
         
-
-        mounted(){
+            await this.dohvatitema();
+            this.loaded = true;
             
-            this.dohvatitema();
+    },
+    
 
-        },
-
-
-        methods: {
-                   async dohvatitema(){
+ methods: {
+        async dohvatitema(){
                             const querySnapshot = await getDocs(collection(db, "products"));
-                            querySnapshot.forEach((doc) => {
-                            if (doc.id === `${doc.data().renter}`) {
-                            this.Createdat = `${doc.data().Createdat}`;
-                            this.adress = `${doc.data().adress}`;
-                            this.country = `${doc.data().country}`;
-                            this.desc = `${doc.data().desc}`;
-                            this.region = `${doc.data().region}`;
-                            this.renttime = `${doc.data().renttime}`;
-                            this.title = `${doc.data().title}`;
-                            this.value = `${doc.data().value}`;
-                            this.zip = `${doc.data().zip}`;
-                                }
-                            });
-                          
-                            
-                    }
 
-      }
+                            let      trenutnipodatci = []
+
+                            querySnapshot.forEach((doc) => {   
+
+                               
+
+                            trenutnipodatci = {"createdat": `${doc.data(Date).Createdat}`, 
+                                                "title": `${doc.data(String).title}`,
+                                                "adress": `${doc.data(String).adress}`,
+                                                "country": `${doc.data(String).country}`,
+                                                "desc": `${doc.data(String).desc}`,
+                                                "zip": `${doc.data(String).zip}`,
+                                                "region": `${doc.data(String).region}`,
+                                                "renttime": `${doc.data(String).renttime}`,
+                                                "value": `${doc.data(String).value}`,
+                                                "renter": `${doc.data(String).renter}`,
+                                                "isrented": `${doc.data(Boolean).isrented}`,
+                                                "city": `${doc.data(Boolean).city}`,
+                                                "imageURL": `${doc.data(String).imageURL}`,
+                                                "doc": doc.id,
+                                                
+                                                };
+                                
+                                this.podatci.push(trenutnipodatci);
+                                
+                                trenutnipodatci = []; 
+                                
+                                
+                                },
+                            
+                            ); 
+                           
+                            
+                    },
+
+                  
+                    
+                }
+
 };
+
 
 </script>
 
