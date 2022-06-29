@@ -13,6 +13,7 @@
       <td><h2>Zip:</h2> {{zip}}</td>
       <td><h2>First name:</h2> {{firstName}}</td>
       <td><h2>Last name:</h2> {{lastName}}</td>
+      <td><h2>Contact:</h2> {{email}}</td>
       
       
   
