@@ -18,6 +18,7 @@
     :value="podatak.value"
     :renter="podatak.renter"
     :zip="podatak.zip"
+    :buyer="podatak.buyer"
     >
     </sendout>
 </div>
