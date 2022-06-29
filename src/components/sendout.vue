@@ -18,9 +18,7 @@
       
   
 
-<div >
-      <input v-if="click" class="btn btn-primary" @click="itemsent()"  type="button" value="Item sent">
-      </div>
+
   
   </tr>
   </tbody>
@@ -73,11 +71,7 @@ export default {
         }
       });
 		},
-        itemsent(){
-                alert("Thank you for sending out the item!");
-                this.click = false;
-
-        },
+        
    }
 }
 </script>
