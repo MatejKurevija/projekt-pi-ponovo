@@ -8,7 +8,7 @@
             <div class="image" > <img height="100" width="100" contain  :src="imageURL" alt="no profile picture" class="rounded-circle">  </div>
             <div class="d-flex flex-column ms-3 user-details">
                 <h4 class="mb-0">Welcome</h4>
-                <div class="ratings"> <span>Rating: {{avgR}}</span> <i class='bx bx-star ms-1'></i> </div>
+                
             </div>
         </div>
         <h4>Edit Profile</h4>
