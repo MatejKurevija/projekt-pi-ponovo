@@ -13,7 +13,7 @@
       <td><h2>Zip:</h2> {{zip}}</td>
       <td><h2>First name:</h2> {{firstName}}</td>
       <td><h2>Last name:</h2> {{lastName}}</td>
-      <td><h2>Contact:</h2> {{email}}</td>
+      <td><h2>Contact email:</h2> {{email}}</td>
       
       
   
@@ -31,7 +31,7 @@
 
 <script>
 import store from '@/store'
-import { doc, getDocs, collection, db } from "@/firebase";
+import { getDocs, collection, db } from "@/firebase";
 
 
 
@@ -46,6 +46,9 @@ export default {
        firstName: "",
 			lastName: "",
             click: true,
+            email: "",
+            firstName: "",
+            lastName: "",
       }
     },
 
@@ -57,7 +60,7 @@ export default {
      async fetchCurrentUserData() {
 			  const querySnapshot = await getDocs(collection(db, "users"));
             querySnapshot.forEach((doc) => {
-            if (this.buyer === `${doc.data().uid}`) {
+            if ( this.buyer === doc.id ) {
             this.firstName = `${doc.data().firstName}`;
             this.lastName = `${doc.data().lastName}`;
             this.city = `${doc.data().city}`;
