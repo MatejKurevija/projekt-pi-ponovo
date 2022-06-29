@@ -57,7 +57,7 @@ export default {
      async fetchCurrentUserData() {
 			  const querySnapshot = await getDocs(collection(db, "users"));
             querySnapshot.forEach((doc) => {
-            if (store.courentuser === `${doc.data().uid}`) {
+            if (this.buyer === `${doc.data().uid}`) {
             this.firstName = `${doc.data().firstName}`;
             this.lastName = `${doc.data().lastName}`;
             this.city = `${doc.data().city}`;
