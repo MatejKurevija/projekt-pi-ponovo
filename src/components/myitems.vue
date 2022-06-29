@@ -7,9 +7,7 @@
       <td><h2>Item description:</h2>{{desc}}</td>
       <td><h2>Price for rent:</h2> {{value}}</td>
       
-      <div>
-      <input class="btn btn-primary" @click="deleteitem()"  type="button" value="Delete item">
-      </div>
+
     </tr>
 
   </tbody>
@@ -40,20 +38,7 @@ export default {
 
 
 
-  methods: {
-    
-      async deleteitem() {
-          const snapshot = await contentRef.where(this.title,'==', favoriteId)
-  
-          .get().then((querySnapshot)=>{
-        // return query snapshot 
-              return querySnapshot.docs
-              // .map(doc => doc.data());
 
-          })
-          },
-
-  }
 
 }
 </script>
