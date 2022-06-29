@@ -18,7 +18,7 @@
 
 <script>
 import store from '@/store'
-import { doc, getDoc } from "firebase/firestore";
+
 
 
 
